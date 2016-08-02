@@ -6,4 +6,12 @@
     Spring MVC/Spring/ Mybatis
     前端
     Jquery/bootstrap等
-
+        jquery
+            tablesorter 排序
+         bootstrap 
+            icheck插件 -- 提供复选框的优化
+            bootstrap datatables
+            responsive-nav
+    
+#问题
+响应式插件与 summernote不太兼容

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.stupidwolf.dao.UserDao">
+    <select id="findUserByUserName" resultType="user">
+       SELECT
+        `u_id` id,
+        `name`,
+        `email` ,
+        `phone`,
+        `password`,
+        `create_date`,
+        `is_deleted`
+    FROM
+        `user`
+    WHERE
+        `name` = #{userName}
+        AND is_deleted=0
+        ;
+    </select>
+
+    <select id="findAllUsersWithRole" resultType="user">
+      SELECT
+        u_id id, name, phone,email,password,create_date
+      FROM USER;
+    </select>
+</mapper>

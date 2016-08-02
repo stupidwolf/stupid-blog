@@ -1,0 +1,33 @@
+.card-blog {
+    width: 360px;
+    height: 150px;;
+    display: inline-block;
+    float: left;
+    margin: 20px;
+    box-shadow: 10px 10px 5px #888888;
+    border-radius:8px;
+    transition: height 1.5s;
+    -webkit-transition: height 1.5s;
+}
+.card-blog .summary {
+    height: 50px;
+    transition: height 1.5s;
+    -webkit-transition: height 1.5s;
+}
+/*.card-blog:hover {*/
+    /*height: 210px;*/
+/*}*/
+/*.card-blog .summary:hover{*/
+    /*height: 110px;*/
+/*}*/
+.card-blog ul {
+    display: inline-block;
+
+}
+.card-blog ul li {
+    display: inline;
+    float: left;
+    list-style-type: none;
+    margin: 2px;
+    padding: 2px;;
+}
