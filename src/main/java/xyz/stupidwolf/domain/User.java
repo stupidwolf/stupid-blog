@@ -14,7 +14,9 @@ public class User implements Serializable{
     private String password;
     private Date createDate;
     private short isDeleted;
-    private List<Role> roleList;
+
+    //当前所处于的角色
+    private Role role;
 
     public User() {
     }
@@ -75,12 +77,12 @@ public class User implements Serializable{
         this.isDeleted = isDeleted;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

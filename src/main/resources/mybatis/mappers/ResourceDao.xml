@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.stupidwolf.dao.ResourceDao">
+    <select id="findResourceByRole" resultType="resource">
+        SELECT
+	rs.rs_id id,
+	rs.content content,
+	rs.url url
+FROM
+ role_resource rr
+INNER JOIN resource rs ON rr.rs_id = rs.rs_id
+
+
+WHERE
+	rr.r_id = #{roleId};
+    </select>
+</mapper>

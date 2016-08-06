@@ -1,13 +1,20 @@
 package xyz.stupidwolf.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.ibatis.type.Alias;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Blog {
+public class Blog implements Serializable{
+    private static final long serialVersionUID = 31528268891090902L;
     private long id;
+    @NotNull(message = "title can not be null.")
     private String title;
+
     private String summary;
+    @NotNull(message = "content can not be null.")
     private String content;
     private long viewCount;
     private long collectedCount;

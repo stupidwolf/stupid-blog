@@ -64,4 +64,8 @@ public class BlogDaoTest {
 
     }
 
+    @Test
+    public void count() {
+        System.out.println(blogDao.count(1));
+    }
 }

@@ -7,6 +7,7 @@
         SELECT
              b.b_id id,
              b.title,
+             b.content content,
              b.summary,
              b.collected_count,
              b.comment_count,
@@ -65,7 +66,8 @@
       `title`,
       `summary`,
       `content`,
-      `create_time`
+      `create_time`,
+      `last_modify_time`
       )
        VALUES (
        #{user.id},
@@ -73,7 +75,8 @@
        #{title},
        #{summary},
        #{content},
-       #{createTime}
+       #{createTime},
+       #{lastModifyTime}
        );
     </insert>
 
@@ -118,4 +121,13 @@
        WHERE b_id = #{id}
         ;
     </delete>
+
+    <select id="count" resultType="int">
+   SELECT
+        count(b.b_id)
+    FROM
+        `blog` b
+    WHERE
+        b.u_id = #{id};
+    </select>
 </mapper>

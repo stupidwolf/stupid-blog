@@ -47,6 +47,8 @@ public interface BlogDao {
      */
     List<Blog> findAllBlogs(@Param("userId") Long userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
+    int count(long id);
+
     //TODO
     List<Blog> findAllBlogsByConditions();
 }

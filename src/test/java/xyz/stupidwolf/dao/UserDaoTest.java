@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import xyz.stupidwolf.domain.Role;
 import xyz.stupidwolf.domain.User;
 
 import static org.junit.Assert.*;
@@ -55,13 +56,20 @@ public class UserDaoTest {
     @Test
     public void findUserByUserName() throws Exception {
         String userName = "cml";
-        User user = userDao.findUserByUserName(userName);
+        User user = userDao.findUserByUserName(userName, 1);
+        System.out.println(user == null);
         System.out.println(user);
+        System.out.println(user.getRole().getName());
     }
 
     @Test
     public void findUserByEmail() throws Exception {
+        User user = userDao.findUserByEmail("cml@163.com", 3);
+        System.out.println(user);
+    }
 
+    @Test
+    public void findUserWithRoles() throws Exception {
     }
 
 }

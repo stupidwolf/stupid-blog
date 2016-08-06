@@ -4,25 +4,60 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.stupidwolf.dao.UserDao">
     <select id="findUserByUserName" resultType="user">
-       SELECT
-        `u_id` id,
-        `name`,
-        `email` ,
-        `phone`,
-        `password`,
-        `create_date`,
-        `is_deleted`
-    FROM
-        `user`
-    WHERE
-        `name` = #{userName}
-        AND is_deleted=0
-        ;
+     SELECT
+	u.`u_id` id,
+	u.`name`,
+	u.`email`,
+	u.`phone`,
+	u.`password`,
+	u.`create_date`,
+	u.`is_deleted`,
+	r.r_id `role.id`,
+	r.`name` `role.name`
+FROM
+	`user` u
+INNER JOIN user_role ur ON u.u_id = ur.u_id
+INNER JOIN role r ON ur.r_id = r.r_id
+WHERE
+	u.`name` = #{name}
+AND r.r_id = #{roleId}
+AND u.is_deleted = 0;
     </select>
 
-    <select id="findAllUsersWithRole" resultType="user">
-      SELECT
-        u_id id, name, phone,email,password,create_date
-      FROM USER;
+    <select id="findUserByEmail" resultType="user">
+        SELECT
+            u.`u_id` id,
+            u.`name`,
+            u.`email`,
+            u.`phone`,
+            u.`password`,
+            u.`create_date`,
+            u.`is_deleted`,
+            r.r_id `role.id`,
+            r.`name` `role.name`
+        FROM
+            `user` u
+        INNER JOIN user_role ur ON u.u_id = ur.u_id
+        INNER JOIN role r ON ur.r_id = r.r_id
+        WHERE
+            u.`email` = #{email}
+        AND r.r_id = #{roleId}
+        AND u.is_deleted = 0;
+    </select>
+
+    <select id="findUserWithRoles" resultType="user">
+        SELECT
+            u.u_id id,
+            u.`name` `name`,
+            u.email  `email`,
+            u.phone phone,
+            u.`password` `password`,
+            u.create_date create_date,
+            u.is_deleted is_delete,
+            r.r_id `role.id`,
+            r.`name` `role.name`
+        FROM `user` u INNER JOIN user_role ur ON u.u_id = ur.u_id
+        INNER JOIN role r ON ur.r_id = r.r_id
+        WHERE u.u_id = #{userId}
     </select>
 </mapper>

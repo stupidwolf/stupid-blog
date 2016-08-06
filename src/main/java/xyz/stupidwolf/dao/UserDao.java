@@ -31,10 +31,11 @@ public interface UserDao {
     int deleteUserWith(long id);
 
     /**
-     * 查询所有用户以及所属类型信息
-     * @return
+     * 通过 user id 查找用户
+     * @param userId user id
+     * @return 返回带有角色类型列表的用户
      */
-    List<User> findAllUsersWithRole();
+    User findUserWithRoles(long userId);
 
     /**
      * 分页查询用户信息
@@ -53,21 +54,23 @@ public interface UserDao {
     /**
      * 通过id查询用户
      * @param id
-     * @return
+     * @return user
      */
     User findUserById(long id);
 
     /**
      *通过用户名查找用户
-     * @param userName
-     * @return
+     * @param name
+     * @param roleId role id
+     * @return user with role
      */
-    User findUserByUserName(String userName);
+    User findUserByUserName(@Param("name") String name, @Param("roleId") int roleId);
 
     /**
      *通过Email查找用户
      * @param email
-     * @return
+     * @param roleId role id
+     * @return user with role
      */
-    User findUserByEmail(String email);
+    User findUserByEmail(@Param("email") String email, @Param("roleId") int roleId);
 }

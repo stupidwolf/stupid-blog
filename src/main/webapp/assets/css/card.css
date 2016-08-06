@@ -31,3 +31,38 @@
     margin: 2px;
     padding: 2px;;
 }
+
+
+.sort-type li {
+    list-style-type: none;
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+    margin:8px 5px;
+    padding: 6px 15px;
+    text-align: center;
+}
+.sort-type li:hover {
+    color: white;
+    background-color: #444444;
+    cursor: pointer;
+    border-radius: 4px;
+}
+/*使分页选择区居中*/
+nav .pagination {
+    text-align: center;
+    display:table;
+     margin:0 auto;
+}
+
+/*消除浮动的影响*/
+.clearfix:after{
+    content: "020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.clearfix {
+    zoom: 1;
+}
