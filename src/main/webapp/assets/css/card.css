@@ -66,3 +66,17 @@ nav .pagination {
 .clearfix {
     zoom: 1;
 }
+
+ .box-content .card-blog .panel-heading span{
+    width: 35px;
+    height: 20px;
+    text-align: center;
+    padding: 3px 5px;
+    border-radius: 4px;
+    float: right;
+}
+.box-content .card-blog .panel-heading span:hover{
+    background-color: rgba(244, 148, 132 , 0.85);
+    cursor: pointer;
+    /*color: #FFFFFF;*/
+}

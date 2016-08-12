@@ -6,17 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import xyz.stupidwolf.domain.Blog;
 import xyz.stupidwolf.domain.Resource;
 import xyz.stupidwolf.domain.User;
 import xyz.stupidwolf.dto.BlogPage;
+import xyz.stupidwolf.dto.WriteBlogResult;
 import xyz.stupidwolf.enums.ResultCode;
-import xyz.stupidwolf.exception.BlogInsertFailException;
-import xyz.stupidwolf.exception.BlogNotFoundException;
-import xyz.stupidwolf.exception.DeletePermissionDenyException;
-import xyz.stupidwolf.exception.NoLoginException;
+import xyz.stupidwolf.exception.*;
 import xyz.stupidwolf.service.IBlogService;
 import xyz.stupidwolf.service.IUserService;
 
@@ -33,7 +33,7 @@ public class UserController {
     @Autowired
     private IBlogService blogService;
 
-    @RequestMapping("/")
+    @RequestMapping("/{id}/home")
     public String index() {
         return "index";
     }
@@ -79,8 +79,8 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/blog/delete", method = RequestMethod.DELETE)
-    public @ResponseBody String deleteBlog(Long id, HttpSession session) {
+    @RequestMapping(value = "/blog/delete/{id}", method = RequestMethod.DELETE)
+    public @ResponseBody String deleteBlog(@PathVariable("id") Long id, HttpSession session) {
         if (id == null) {
             logger.info("执行删除错误，blog id 不能为空");
             return ResultCode.DELETE_FAIL.getCode();
@@ -101,33 +101,61 @@ public class UserController {
     }
 
     @RequestMapping(value = "/blog/do_write", method = RequestMethod.POST)
-    public @ResponseBody String doWriteBlog(@Valid @ModelAttribute("blog") Blog blog,
-                                            HttpSession session , Errors errors) {
-
-        System.out.println(blog.getTitle());
-        System.out.println(blog.getSummary());
-        System.out.println(blog.getContent());
-        System.out.println(blog.getType().getId());
-        int typeId = blog.getType().getId();
-        if (errors.hasErrors()) {
+    public @ResponseBody WriteBlogResult doWriteBlog(HttpSession session , @Valid Blog blog,
+                                BindingResult br) {
+        WriteBlogResult result = new WriteBlogResult();
+        if (br.hasErrors()) {
             logger.warn("数据认证不通过.");
-            return ResultCode.WRITE_FAIL.getCode();
+            result.setErrors(br.getAllErrors());
+            result.setCode(ResultCode.WRITE_FAIL.getCode());
+            return result;
         }
+        int typeId = blog.getType().getId();
 
-//        User user = (User)session.getAttribute("user");
-//        if (user == null) {
-//            throw new NoLoginException("用户未登录");
-//        }
-
-        long userId = 2;
+        User user = (User)session.getAttribute("user");
+        if (user == null) {
+            throw new NoLoginException("用户未登录");
+        }
 
         try{
-            blogService.add(blog, userId, typeId);
+            blogService.add(blog, user.getId(), typeId);
         } catch (BlogInsertFailException e) {
             logger.warn(e.getMessage());
-            return ResultCode.WRITE_FAIL.getCode();
+            result.setCode(ResultCode.WRITE_FAIL.getCode());
+            return result;
         }
-        return ResultCode.WRITE_SUCCESS.getCode();
+        result.setCode(ResultCode.WRITE_SUCCESS.getCode());
+        result.setBlogId(blog.getId());
+        return result;
     }
 
+    @RequestMapping(value = "/blog/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        Blog blog = blogService.findBlogById(id);
+        model.addAttribute("blog", blog);
+        return "edit";
+    }
+
+    @RequestMapping(value = "/blog/update")
+    public @ResponseBody String updateBlog(@Valid Blog blog, BindingResult br) {
+
+        if (br.hasErrors()) {
+            logger.warn("数据认证不通过.");
+            return "update error";
+        }
+
+        boolean result =false;
+        try{
+            result = blogService.update(blog);
+        } catch (BlogUpdateException e1) {
+            logger.warn(e1.getMessage());
+        } catch (Exception e2) {
+            logger.warn(e2.getMessage());
+        }
+
+        if (!result) {
+            return "update error";
+        }
+        return "ok";
+    }
 }

@@ -64,7 +64,7 @@ public class UserDaoTest {
 
     @Test
     public void findUserByEmail() throws Exception {
-        User user = userDao.findUserByEmail("cml@163.com", 3);
+        User user = userDao.findUserByEmail("stupidwolf@gmail.com", 3);
         System.out.println(user);
     }
 

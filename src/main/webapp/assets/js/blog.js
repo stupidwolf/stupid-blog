@@ -59,7 +59,12 @@ var BLOG =  {
 
         for (var i = 0; i < blogs.length; i ++) {
             var panel = $('<div class="card-blog panel panel-default"></div>');
-            var headPanel = $('<div class="panel-body"></div>').html(blogs[i].title);
+
+            var headPanel = $('<div class="panel-heading"></div>').html(blogs[i].title);
+            var view = $('<span class="glyphicon glyphicon-eye-open view"></span>').attr("value", blogs[i].id).appendTo(headPanel);
+            var edit = $('<span class="glyphicon glyphicon-edit edit"></span>').attr("value", blogs[i].id).appendTo(headPanel);
+            var remove=$('<span class="glyphicon glyphicon-remove remove"></span>').attr("value", blogs[i].id).appendTo(headPanel);
+
             var panelBody = $('<div class="panel-body summary"></div>').html('简要信息: ' + blogs[i].summary);
             var ul = $('<ul class="panel-footer"></ul>');
             $('<li class="blog-id" style="display:none;"></li>').html(blogs[i].id).appendTo(ul);
@@ -72,6 +77,38 @@ var BLOG =  {
             blogList.append(panel);
 
         }
+
+        $('.box-content .card-blog .panel-heading').on("click", ".view", function() {
+            var blogid = $(this).attr("value");
+            // console.log($(this).attr("value"));
+            window.open(BLOG.URL.getView(blogid));
+        });
+
+        $('.box-content .card-blog .panel-heading').on("click", ".edit", function() {
+            var blogid = $(this).attr("value");
+            // console.log($(this).attr("value"));
+            window.open(BLOG.URL.getEdit(blogid));
+        });
+
+        $('.box-content .card-blog .panel-heading').on("click", ".remove", function() {
+            var blogid = $(this).attr("value");
+            var deleteNode = $(this).parentsUntil('#blog-list');
+            console.log(deleteNode);
+
+            var result = confirm("确定删除该条博客?");
+            if (result) {
+                $.ajax({
+                    url: BLOG.URL.getDelete(blogid),
+                    type: 'DELETE',
+                    success:function (data) {
+                        //从DOM中删除该节点
+                        deleteNode.remove();
+
+                    }
+                })
+            }
+
+        });
     },
     dateFomat : function(date) {
     var fDate = new Date(date);
@@ -88,6 +125,15 @@ var BLOG =  {
             return "/u/" + userId + "/blog/getList" + "?"
                 + "current=" + (current ? current : "1")
                 + "&size=" + (size ? size : "4");
+        },
+        getView:function (blogId) {
+            return "/u/blog/view/" + blogId;
+        },
+        getEdit:function (blogId) {
+            return "/u/blog/edit/" + blogId;
+        },
+        getDelete:function(blogId) {
+            return "/u/blog/delete/" + blogId;
         }
     }
 }

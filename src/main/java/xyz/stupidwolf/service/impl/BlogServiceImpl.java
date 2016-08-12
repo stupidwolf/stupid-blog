@@ -13,6 +13,7 @@ import xyz.stupidwolf.domain.User;
 import xyz.stupidwolf.dto.BlogPage;
 import xyz.stupidwolf.exception.BlogInsertFailException;
 import xyz.stupidwolf.exception.BlogNotFoundException;
+import xyz.stupidwolf.exception.BlogUpdateException;
 import xyz.stupidwolf.exception.DeletePermissionDenyException;
 import xyz.stupidwolf.service.IBlogService;
 
@@ -51,8 +52,12 @@ public class BlogServiceImpl implements IBlogService {
      * @param blog 更改的blog
      * @return 若更新成功，则返回true,失败则为false
      */
+    @Transactional
     @Override
-    public boolean update(Blog blog) {
+    public boolean update(Blog blog) throws BlogUpdateException{
+        Date updateDate = new Date();
+        blog.setLastModifyTime(updateDate);
+
         int result = blogDao.updateBlogWithType(blog);
         return result > 0 ? true :  false;
     }

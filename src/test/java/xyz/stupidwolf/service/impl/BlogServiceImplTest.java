@@ -28,7 +28,9 @@ public class BlogServiceImplTest {
 
     @Test
     public void update() throws Exception {
-
+        Blog blog = blogService.findBlogById(3);
+        blog.setTitle("Hello");
+        blogService.update(blog);
     }
 
     @Test
@@ -41,7 +43,7 @@ public class BlogServiceImplTest {
         blog.setSummary("摘要测试");
 
         blogService.add(blog, userId, typeId);
-
+        System.out.println(blog.getId());
     }
 
     @Test

@@ -12,6 +12,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="css/responsive-nav.css"> -->
 
     <link rel="stylesheet" type="text/css" href="${path}/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${path}/assets/css/shCoreDefault.css">
 
     <script type="text/javascript" src="${path}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${path}/assets/js/bootstrap-markdown.js"></script>
@@ -31,15 +32,15 @@
         <div class="col-xs-8 col-sm-10 col-md-10 contents">
             <article id="article-display">
                 <p class="article-head"><label>标题: </label>${blog.title}</p>
-                <p>作者:</p>
-                <p>最近更新时间</p>
+                <p>作者: <span>${blog.user.name}</span></p>
+                <p>最近更新时间: ${blog.lastModifyTime}</p>
                 <pre class="article-summary">摘要: ${blog.summary}</pre>
                 <p class="article-content">
 
                 </p>
                 <div class="article-footer">
-                    <p>版权声明</p>
-                    <p>创建日期</p>
+                    <p>版权声明:<span>本文未经${blog.user.name}允许，禁止转载</span></p>
+                    <p>创建日期<span>${blog.createTime}</span></p>
                 </div>
             </article>
             <div class="article-comment">
@@ -56,6 +57,13 @@
         <p align="center">页尾</p>
     </footer>
 </div>
+
+<script type="text/javascript" src="${path}/assets/js/zoom-out-in.js"></script>
+<script type="text/javascript" src="${path}/assets/js/menu.js"></script>
+<script type="text/javascript" src="${path}/assets/js/blog-edit.js"></script>
+<script type="text/javascript" src="${path}/assets/js/shCore.js"></script>
+<script type="text/javascript" src="${path}/assets/js/shBrushJScript.js"></script>
+
 <script type="text/javascript">
     $("#write-comment ").markdown({autofocus:false,savable:true,resize:'horizontal'})
 </script>
@@ -66,11 +74,25 @@
     }
 
     var article = hereDoc(function () {/* ${blog.content}*/});
-    article[0].replace('<br>','/n');
+
+    console.log(article);
+
     $('#article-display .article-content').html(markdown.toHTML(article));
+
+    console.log(markdown.toHTML(article));
 </script>
-<script type="text/javascript" src="${path}/assets/js/zoom-out-in.js"></script>
-<script type="text/javascript" src="${path}/assets/js/menu.js"></script>
+
+<script type="text/javascript">
+    SyntaxHighlighter.config.tagName="code";
+    SyntaxHighlighter.all('code');
+</script>
+<script>
+    var codes = $('code');
+    console.log('runned');
+    for(var i  = 0; i < codes.length; i ++) {
+        $(codes[i]).addClass('brush:js');
+    }
+</script>
 <script>
     MENU.init(1);
 </script>

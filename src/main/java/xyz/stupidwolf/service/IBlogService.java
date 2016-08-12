@@ -1,8 +1,10 @@
 package xyz.stupidwolf.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import xyz.stupidwolf.domain.Blog;
 import xyz.stupidwolf.dto.BlogPage;
 import xyz.stupidwolf.exception.BlogNotFoundException;
+import xyz.stupidwolf.exception.BlogUpdateException;
 import xyz.stupidwolf.exception.DeletePermissionDenyException;
 
 import java.util.List;
@@ -25,7 +27,13 @@ public interface IBlogService {
      * @return 是否添加成功
      */
     boolean add(Blog blog, long userId, int typeId);
-    boolean update(Blog blog);
+
+    /**
+     *
+     * @param blog
+     * @return 更新操作结果
+     */
+    boolean update(Blog blog) throws BlogUpdateException;
 
 
     Blog findBlogById(long id) throws BlogNotFoundException;
@@ -38,5 +46,11 @@ public interface IBlogService {
      * @return 封装博客列表的dto对象
      */
     BlogPage getBlogPage(long userId, int current, int size) throws BlogNotFoundException;
+
+    /**
+     * 获得 userId 为 id的用户的所博客的条数
+     * @param id user id
+     * @return 博文总数
+     */
     int count(long id);
 }

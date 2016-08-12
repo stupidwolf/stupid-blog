@@ -2,6 +2,7 @@ package xyz.stupidwolf.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.ibatis.type.Alias;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -10,11 +11,11 @@ import java.util.Date;
 public class Blog implements Serializable{
     private static final long serialVersionUID = 31528268891090902L;
     private long id;
-    @NotNull(message = "title can not be null.")
+    @NotEmpty(message = "title can not be empty.")
     private String title;
 
     private String summary;
-    @NotNull(message = "content can not be null.")
+    @NotEmpty(message = "content can not be empty.")
     private String content;
     private long viewCount;
     private long collectedCount;
@@ -22,6 +23,7 @@ public class Blog implements Serializable{
     private Date createTime;
     private Date lastModifyTime;
 
+    @NotNull(message = "type can not be null.")
     private Type type;
     private User user;
 

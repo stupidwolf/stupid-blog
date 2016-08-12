@@ -35,14 +35,14 @@ public class LoginController {
     public String login(String loginName, String password, Integer roleId, HttpSession session) {
         if (loginName == null || loginName.equals("")|| password == null||password.equals("")) {
             logger.info("用户名或密码为空.");
-            return "forward:/login.jsp";
+            return "forward:/login";
         }
         User user = null;
         //用户名方式检验
         try {
             user = userService.loginByName(loginName, password, roleId);
             session.setAttribute("user", user);
-            return "index";
+            return "redirect:/u/" + user.getId()+ "/home";
 
         } catch (UserNotFoundException e1) {
             System.out.println(e1.getMessage());
@@ -54,13 +54,13 @@ public class LoginController {
         try {
             user = userService.loginByEmail(loginName, password, roleId);
             session.setAttribute("user", user);
-            return "index";
+            return "redirect:/u/" + user.getId() + "/home";
         }catch (UserNotFoundException e1) {
             System.out.println(e1.getMessage());
         } catch (UserCheckFailException e2) {
             System.out.println(e2.getMessage());
         }
-            return "forward:/login.jsp";
+            return "forward:/login";
 
     }
 }

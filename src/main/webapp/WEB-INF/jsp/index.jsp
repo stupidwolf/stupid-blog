@@ -20,6 +20,10 @@
 <div class="container-fluid container-box">
     <header class="page-header">
         <h3>Example page header <small>Subtext for header</small></h3>
+        <div align="right">
+            <label>当前用户:</label><span>${user.name}</span>
+            <label>当前角色:</label><span>${user.role.name}</span>
+        </div>
     </header>
 
     <div class="row">

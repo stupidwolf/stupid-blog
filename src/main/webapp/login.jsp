@@ -51,6 +51,7 @@
                             <label class="sr-only" for="password">密码</label>
                             <input type="password" name="password" placeholder="密码" class="form-password form-control" id="password">
                         </div>
+                        <input value="1" name="roleId" style="display: none">
                         <div class="form-group">
                             <input type="checkbox" class="icheckbox_square-green" id="state-check" checked>
                             <label for="state-check">记住我的登录状态</label>

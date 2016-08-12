@@ -37,7 +37,7 @@ public class BlogDaoTest {
 
         Blog blog = blogDao.findBlogById(3);
         blog.setType(type);
-        blog.setTitle("有更新哦。");
+        blog.setTitle("有更新哦~~。");
         blogDao.updateBlogWithType(blog);
     }
 

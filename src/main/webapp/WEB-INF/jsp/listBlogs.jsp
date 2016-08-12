@@ -70,7 +70,8 @@
         //加载左侧菜单栏
         MENU.init(1);
         //加载博客初始列表(userId, currentPage,pageSize)
-        BLOG.init(2, 1, 2);
+        console.log(${user.id});
+        BLOG.init(${user.id}, 1, 2);
 
         //
     });

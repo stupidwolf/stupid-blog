@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String path = request.getContextPath();%>
 <!DOCTYPE html>
@@ -31,19 +32,21 @@
         <div class="col-xs-8 col-sm-10 col-md-9 contents" id="blog-editor">
             <div class="row">
                 <div <%--class="col-md-8"--%>>
-                    <form action="/u/blog/do_write" method="post">
+                    <form action="/u/blog/update" method="post">
+                        <input value="${blog.id}" name="id" style="display: none">
                         <div class="input-group">
                             <span class="input-group-addon">标题:</span>
-                            <input type="text" class="form-control" name="title" placeholder="title" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="title" placeholder="title" aria-describedby="basic-addon1"
+                            value="${blog.title}">
                         </div>
                         <div class="form-group">
                             <label for="blog-summary">摘要:</label>
                             <textarea name="summary" class="form-control summary" placeholder="请输入摘要内容 200字以内哦~"
-                            id="blog-summary" maxlength="200"></textarea>
+                                      id="blog-summary" maxlength="200">${blog.summary}</textarea>
                         </div>
 
                         <textarea name="content" data-provide="markdown" rows="25"
-                                  id="target-editor" ></textarea>
+                                  id="target-editor" >${blog.content}</textarea>
                         <hr>
                         <div class="form-group article-type-form">
                             <label>选择博客类型:</label>
@@ -55,9 +58,9 @@
                         <button type="submit" class="btn">Submit</button>
                     </form>
                 </div>
-            <div class="col-md-4">
-                    <div id="preview"></div>
-                </div>
+                <%--          <div class="col-md-4">
+                              <div id="preview"></div>
+                          </div>--%>
             </div>
         </div>
     </div>
@@ -70,7 +73,20 @@
     $("#target-editor").markdown({autofocus:false,resize:'both'})
 </script>
 
-<script type="text/javascript" src="${path}/assets/js/blog-edit.js"></script>
+<script>
+    $('document').ready(function() {
+
+        //绑定编辑区input事件
+        $('#target-editor').on('input', function(e) {
+            $('#preview').html(markdown.toHTML($('#target-editor').val()));
+        });
+
+        $('form').on('click', function(e){
+            $('#preview').html(markdown.toHTML($('#target-editor').val()));
+        });
+    });
+
+</script>
 
 <!-- 引入导航栏缩小script -->
 <script type="text/javascript" src='${path}/assets/js/zoom-out-in.js'></script>
@@ -81,10 +97,14 @@
 
 <script>
     $(document).ready(function () {
-       var type = $('#blog-editor .article-type');
+        var type = $('#blog-editor .article-type');
         $.get("/blog/type/list", function (data) {
             for (var i = 0; i < data.length; i ++) {
                 var option = $('<option ></option>').html(data[i].name);
+                if(data[i].id == ${blog.type.id}) {
+                    option.attr("selected", "selected");
+                }
+                console.log(data[i])
                 option.attr('value', data[i].id).appendTo(type);
             }
         }, "json");

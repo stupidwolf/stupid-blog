@@ -27,16 +27,27 @@
     </bean>
 
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+<!--            <mvc:mapping path="/u/blog/edit/*"/>
+            <mvc:mapping path="/u/blog/delete/*"/>
+            <mvc:mapping path="/u/blog/save/*"/>
+            <mvc:mapping path="/u/*/home"/>-->
+            <mvc:mapping path="/u/**"/>
+            <bean class="xyz.stupidwolf.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!--启用spring mvc 的数据校验-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
-        <!--不设置则默认为classpath下的 ValidationMessages.properties -->
+        <!--不设置则默认为classpath下的 ValidationMessages -->
         <property name="validationMessageSource" ref="validatemessageSource"/>
     </bean>
     <bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
 
     <bean id="validatemessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <!--<property name="basename" value="classpath:ValidationMessages.properties"/>-->
+        <property name="basename" value="classpath:ValidationMessages"/>
         <property name="fileEncodings" value="utf-8"/>
         <property name="cacheSeconds" value="120"/>
     </bean>
